@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "e9ae5876-9ccf-4391-b35d-3762c4d5c0b2",
+		"name": "Github CRUD Operations",
+		"description": "A collection of GitHub API CRUD operations.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41195426"
+	},
+	"item": [
+		{
+			"name": "Create Repository",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Repository is created successfully\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    // Check if the response status code is 201 (Created)\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    // Check if the response contains the correct repository name\r",
+							"    pm.expect(jsonData.name).to.eql('Postman-repository');\r",
+							"\r",
+							"    // Check if the repository description matches what we set\r",
+							"    pm.expect(jsonData.description).to.eql('A new repository created via Postman');\r",
+							"    \r",
+							"    // Check if the repository is public (or private depending on what you set)\r",
+							"    pm.expect(jsonData.private).to.eql(false);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "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",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Postman-repository\",\r\n  \"description\": \"A new repository created via Postman\",\r\n  \"private\": false\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.github.com/user/repos",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"user",
+						"repos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Repository Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Repository info fetched successfully\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    // Check if the response status code is 200 (OK)\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    // Check if the repository name is correct\r",
+							"    pm.expect(jsonData.name).to.eql('Postman-repository');\r",
+							"\r",
+							"    // Check if the description matches\r",
+							"    pm.expect(jsonData.description).to.eql('A new repository created via Postman');\r",
+							"\r",
+							"    // Check if the repository is public or private\r",
+							"    pm.expect(jsonData.private).to.eql(false);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repos/Ritik2821/Postman-repository",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"Ritik2821",
+						"Postman-repository"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Repository Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Repository updated successfully\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    // Check if the response status code is 200 (OK) after update\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    // Check if the repository name is updated\r",
+							"    pm.expect(jsonData.name).to.eql('updated-Postman-repository');\r",
+							"\r",
+							"    // Check if the description is updated\r",
+							"    pm.expect(jsonData.description).to.eql('Updated description for the repository.');\r",
+							"\r",
+							"    // Ensure the repository is still public (if that was the desired state)\r",
+							"    pm.expect(jsonData.private).to.eql(false);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "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",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"Updated description for the repository.\",\r\n  \"name\": \"updated-Postman-repository\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.github.com/repos/Ritik2821/Postman-repository",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"Ritik2821",
+						"Postman-repository"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Repository",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Repository deleted successfully\", function () {\r",
+							"    // Check if the response status code is 204 (No Content) after deletion\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repos/Ritik2821/updated-Postman-repository",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"Ritik2821",
+						"updated-Postman-repository"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
